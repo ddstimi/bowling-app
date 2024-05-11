@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient2"
+        tools:context=".RegisterActivity">
+
+        <ImageView
+            android:id="@+id/logo_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/logo"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="22dp" />
+
+        <TextView
+            android:id="@+id/bowling_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bowling"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:textStyle="bold"
+            android:background="@null"
+            app:layout_constraintTop_toBottomOf="@id/logo_image"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="3dp" />
+
+        <TextView
+            android:id="@+id/registration_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Regisztráció"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp"
+            android:shadowColor="#888888"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="2"
+            app:layout_constraintTop_toBottomOf="@id/bowling_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="35dp" />
+
+        <TextView
+            android:id="@+id/fullname_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Teljes név"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/registration_text"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/fullname_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDD"
+            android:hint="Teljes név"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:padding="12dp"
+            android:inputType="textPersonName"
+            android:backgroundTint="#AA000000"
+            android:radius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fullname_textview" />
+
+        <TextView
+            android:id="@+id/username_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Felhasználónév"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/fullname_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/username_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDD"
+            android:hint="Felhasználónév"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:padding="12dp"
+            android:inputType="text"
+            android:backgroundTint="#AA000000"
+            android:radius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/username_textview" />
+
+        <TextView
+            android:id="@+id/phone_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Telefonszám"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/username_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/phone_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDD"
+            android:hint="+36301234567"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:padding="12dp"
+            android:inputType="phone"
+            android:backgroundTint="#AA000000"
+            android:radius="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phone_textview" />
+
+
+        <TextView
+            android:id="@+id/birthdate_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Születési dátum"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/phone_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/birthdate_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDD"
+            android:hint="ÉÉÉÉ-HH-NN"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:padding="12dp"
+            android:inputType="date"
+            android:backgroundTint="#AA000000"
+            android:radius="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/birthdate_textview" />
+
+        <TextView
+            android:id="@+id/email_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E-mail cím"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/birthdate_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/email_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDD"
+            android:hint="példa@példa.com"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:padding="12dp"
+            android:inputType="textEmailAddress"
+            android:backgroundTint="#AA000000"
+            android:radius="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/email_textview" />
+
+        <TextView
+            android:id="@+id/password_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jelszó"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/email_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/password_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDD"
+            android:hint="Jelszó"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:backgroundTint="#AA000000"
+            android:radius="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password_textview" />
+
+        <TextView
+            android:id="@+id/confirm_password_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jelszó újra"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintTop_toBottomOf="@id/password_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <EditText
+            android:id="@+id/confirm_password_edittext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="32dp"
+            android:background="#DDD"
+            android:hint="Jelszó újra"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#CCCCCC"
+            android:padding="12dp"
+            android:inputType="textPassword"
+            android:backgroundTint="#AA000000"
+            android:radius="15dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/confirm_password_textview" />
+
+        <CheckBox
+            android:id="@+id/accept_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Elfogadom a felhasználói feltételeket"
+            android:textColor="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/confirm_password_edittext"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="20dp"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="32dp"
+            android:backgroundTint="#6c0606"
+            android:text="Regisztráció"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:padding="16dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:onClick="register"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/accept_checkbox" />
+
+        <TextView
+            android:id="@+id/already_registered_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Már regisztrált? Kattintson ide"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:onClick="loginPage"
+            app:layout_constraintTop_toBottomOf="@id/register_button"
+            app:layout_constraintStart_toStartOf="parent"
+            android:padding="15dp"
+            android:layout_marginStart="20dp" />
+
+        <View
+            android:id="@+id/empty_space"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:layout_constraintTop_toBottomOf="@id/register_button" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

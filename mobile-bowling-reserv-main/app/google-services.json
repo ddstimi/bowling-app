@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "605110297391",
+    "project_id": "bowlingapp-816c2",
+    "storage_bucket": "bowlingapp-816c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605110297391:android:3646bf01049fa9be9b77da",
+        "android_client_info": {
+          "package_name": "bowling.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY7jrCzMsAJesDjKqNWtBwu7q9SSREH30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605110297391:android:cea6e83556b0ab199b77da",
+        "android_client_info": {
+          "package_name": "com.example.bowling"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY7jrCzMsAJesDjKqNWtBwu7q9SSREH30"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
