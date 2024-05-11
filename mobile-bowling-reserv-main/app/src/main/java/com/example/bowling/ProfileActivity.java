@@ -5,12 +5,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +56,19 @@ public class ProfileActivity extends AppCompatActivity {
             // Ha a felhasználó null, akkor nincs bejelentkezve
             Log.e("ProfileActivity", "Nincs bejelentkezve felhasználó.");
         }
+
+        ImageView logo = findViewById(R.id.logo_image);
+        TextView bowling = findViewById(R.id.bowling_text);
+        LinearLayout menu = findViewById(R.id.menu_bar);
+        CardView profile = findViewById(R.id.profile_card);
+        // Animáció betöltése
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_page);
+
+        // Animáció hozzáadása a TextView elemekhez
+        logo.startAnimation(fadeInAnimation);
+        bowling.startAnimation(fadeInAnimation);
+        menu.startAnimation(fadeInAnimation);
+        profile.startAnimation(fadeInAnimation);
     }
 
     public void indexPage(View view) {
@@ -75,9 +92,12 @@ public class ProfileActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+
+        // Visszairányítjuk a felhasználót a bejelentkezési oldalra
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("SECRET_KEY",99);
-        intent.setDataAndType(Uri.parse("file://" + "/path/to/your/activity_main.xml"), "text/xml");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Törli az összes előző Activity-t a visszairányítás előtt
         startActivity(intent);
+        finish();
     }
 }

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -62,6 +64,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void register(View view) {
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        view.startAnimation(fadeInAnimation);
+
         String email = emailET.getText().toString();
         String password = passwordET.getText().toString();
         String passwordagain = passwordagainET.getText().toString();

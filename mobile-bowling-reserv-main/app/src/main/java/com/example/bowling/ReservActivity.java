@@ -6,13 +6,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -54,6 +60,19 @@ public class ReservActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
         reservationManager = new ReservationManager();
+
+        ImageView logo = findViewById(R.id.logo_image);
+        TextView bowling = findViewById(R.id.bowling_text);
+        LinearLayout menu = findViewById(R.id.menu_bar);
+        CardView reserv = findViewById(R.id.reservation_card);
+        // Animáció betöltése
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_page);
+
+        // Animáció hozzáadása a TextView elemekhez
+        logo.startAnimation(fadeInAnimation);
+        bowling.startAnimation(fadeInAnimation);
+        menu.startAnimation(fadeInAnimation);
+        reserv.startAnimation(fadeInAnimation);
     }
 
     private List<String> generateTimeSlotsForAWeek() {
@@ -133,13 +152,19 @@ public class ReservActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void logout(View view) {
+        FirebaseAuth.getInstance().signOut();
+
+        // Visszairányítjuk a felhasználót a bejelentkezési oldalra
         Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("SECRET_KEY",99);
-        intent.setDataAndType(Uri.parse("file://" + "/path/to/your/activity_main.xml"), "text/xml");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Törli az összes előző Activity-t a visszairányítás előtt
         startActivity(intent);
+        finish();
     }
 
     public void reserv(View view) {
+        Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        view.startAnimation(fadeInAnimation);
+
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         String userId = null;
@@ -240,7 +265,9 @@ public class ReservActivity extends AppCompatActivity {
                 Log.e("ReservationCheck", "Hiba történt a lekérdezés során.", task.getException());
             }
         });
-
+   //TODO open hours  and not 0
 
     }
+
+
 }
