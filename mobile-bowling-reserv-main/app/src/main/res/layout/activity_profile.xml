@@ -8,7 +8,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/userDataLayout">
 
         <ImageView
             android:id="@+id/logo_image"
@@ -172,7 +173,7 @@
             android:id="@+id/reservations_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Foglalások:"
+            android:text="Aktuális foglalásaim:"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             android:padding="16dp"
@@ -181,16 +182,61 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/reservations_recyclerview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:layout_marginTop="310dp"
-            app:layout_constraintTop_toBottomOf="@id/reservations_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_gravity="center_horizontal"/>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp"
+                android:layout_marginTop="320dp"
+                android:layout_marginRight="60dp">
+
+                <TextView
+                    android:id="@+id/tvReservationTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Időpont"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"/>
+
+                <TextView
+                    android:id="@+id/tvNumberOfPeople"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Fő"
+                    android:textStyle="bold"
+                    android:gravity="left"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"/>
+                <TextView
+                    android:id="@+id/tvNumberOfHours"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Óra"
+                    android:textStyle="bold"
+                    android:gravity="left"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20sp"
+                    android:textColor="#FFF"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/reservationsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="25dp"
+                android:layout_marginTop="350dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp">
+
+            </LinearLayout>
+
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

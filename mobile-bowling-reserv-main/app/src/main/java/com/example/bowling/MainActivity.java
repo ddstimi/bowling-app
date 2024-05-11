@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -47,17 +48,24 @@ public class MainActivity extends AppCompatActivity {
         String email=emailET.getText().toString();
         String password=passwordET.getText().toString();
 
-        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Log.d(LOG_TAG,"Successfully signing in user");
-                    start();
-                }else{
-                    Log.d(LOG_TAG,"Error while signing in user");
+        if(email.isEmpty()||password.isEmpty()){
+            Toast.makeText(this, "Minden mezőt ki kell tölteni!", Toast.LENGTH_SHORT).show();
+            return;
+        }else {
+            auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        Log.d(LOG_TAG,"Successfully signing in user");
+                        start();
+                    }else{
+                        Toast.makeText(MainActivity.this, "Nem megfelelő felhasználónév vagy jelszó", Toast.LENGTH_SHORT).show();
+                        Log.d(LOG_TAG,"Error while signing in user");
+                    }
                 }
-            }
-        });
+            });
+        }
+
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         view.startAnimation(fadeInAnimation);
 
