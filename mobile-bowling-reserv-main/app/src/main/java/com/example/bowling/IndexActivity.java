@@ -22,10 +22,17 @@ import androidx.core.app.ActivityCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 public class IndexActivity extends AppCompatActivity {
 
     private static final String LOG_TAG=RegisterActivity.class.getName();
     private static final int PERMISSION_REQUEST_CALL = 1;
+
+    private ReservationNotificationManager mNotificationHandler;
+    ReservationManager reservationManager;
 
     private FirebaseUser user;
     @Override
@@ -41,7 +48,7 @@ public class IndexActivity extends AppCompatActivity {
             Log.e(LOG_TAG,"Unauthenticated!");
             finish();
         }
-
+        reservationManager= new ReservationManager();
 
         ImageView logo = findViewById(R.id.logo_image);
         TextView bowling = findViewById(R.id.bowling_text);
@@ -60,8 +67,21 @@ public class IndexActivity extends AppCompatActivity {
         intro.startAnimation(fadeInAnimation);
         open.startAnimation(fadeInAnimation);
         help.startAnimation(fadeInAnimation);
+
+        checkReservationWithin30Minutes();
+
+        mNotificationHandler = new ReservationNotificationManager(this);
+        mNotificationHandler.send("Halo");
     }
 
+    private void checkReservationWithin30Minutes() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MINUTE, 30); // Hozzáadunk 30 percet az aktuális időhöz
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        String futureTime = dateFormat.format(calendar.getTime());
+
+    }
     public void reservPage(View view) {
         Intent intent = new Intent(this, ReservActivity.class);
         intent.putExtra("SECRET_KEY",99);
@@ -126,4 +146,6 @@ public class IndexActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
 }

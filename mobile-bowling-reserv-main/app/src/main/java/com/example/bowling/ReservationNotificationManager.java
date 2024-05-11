@@ -1,6 +1,5 @@
 package com.example.bowling;
 
-import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -11,17 +10,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 public class ReservationNotificationManager {
 
     private Context context;
     private static final String CHANNEL_ID = "foglalasok_channel";
     private static final String CHANNEL_NAME = "Foglalások";
     private static final int NOTIFICATION_ID = 1;
-    private static final int PERMISSION_REQUEST_CODE = 1001;
 
     public ReservationNotificationManager(Context context) {
         this.context = context;
@@ -41,40 +35,22 @@ public class ReservationNotificationManager {
         }
     }
 
-    public void scheduleNotification(String reservationTime) {
-        try {
-            Date reservationDate = parseTimeSlot(reservationTime);
-            long reservationTimeInMillis = reservationDate.getTime();
-            long currentTime = System.currentTimeMillis();
-            long timeDifference = reservationTimeInMillis - currentTime;
-
-            if (timeDifference > 0 && timeDifference <= 30 * 60 * 1000) { // Fél óra vagy kevesebb van hátra a foglalási időpontig
-                showNotification();
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
+    public void send(String message) {
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // Hiányzó jogosultságok kezelése
+            // Például kérj engedélyt vagy adj visszajelzést a felhasználónak
+            return;
         }
-    }
 
-    private Date parseTimeSlot(String timeSlot) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        return dateFormat.parse(timeSlot);
-    }
-
-    public void showNotification() {
+        // A jogosultság rendelkezésre áll, így folytathatod az értesítés küldését
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_dialog_alert) // helyettesítő ikon
                 .setContentTitle("Foglalás emlékeztető")
-                .setContentText("Önnek fél óra múlva van egy foglalása!")
+                .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // Hiányzó jogosultságok kérése
-            ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, PERMISSION_REQUEST_CODE);
-        } else {
-            // Jogosultság rendelkezésre áll, értesítés kiküldése
-            notificationManager.notify(NOTIFICATION_ID, builder.build());
-        }
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
+
 }

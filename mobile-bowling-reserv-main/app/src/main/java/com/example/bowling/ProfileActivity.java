@@ -94,7 +94,6 @@ public class ProfileActivity extends AppCompatActivity {
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
 
-        // Visszairányítjuk a felhasználót a bejelentkezési oldalra
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Törli az összes előző Activity-t a visszairányítás előtt
         startActivity(intent);

@@ -49,6 +49,9 @@ public class ReservationManager {
 
 
 
+
+
+
     public void queryReservationsForUser(String userId, LinearLayout reservationsLayout) {
         // Az aktuális dátum lekérése
         String currentTime = getCurrentFormattedTime();
