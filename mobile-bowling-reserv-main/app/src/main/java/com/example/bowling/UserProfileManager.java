@@ -34,7 +34,6 @@ public class UserProfileManager {
                                 String email = document.getString("email");
                                 String phone = document.getString("phoneNumber");
 
-                                // Hozzáfűzzük az adatokat a már létező TextView-khoz
                                 TextView nameTextView = userDataLayout.findViewById(R.id.name_textview);
                                 nameTextView.setText("Név: " + name);
 

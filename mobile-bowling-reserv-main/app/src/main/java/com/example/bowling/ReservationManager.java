@@ -80,7 +80,6 @@ public class ReservationManager {
                             ));
                             timeTextView.setTextSize(18);
 
-                            // Fő TextView
                             TextView numberOfPeopleTextView = new TextView(reservationsLayout.getContext());
                             String numberOfPeopleText = String.valueOf(numberOfPeople);
                             numberOfPeopleTextView.setText(numberOfPeopleText);
@@ -89,11 +88,10 @@ public class ReservationManager {
                                     LinearLayout.LayoutParams.WRAP_CONTENT,
                                     1
                             );
-                            numberOfPeopleLayoutParams.setMargins(40, 0, 0, 0); // Bal margó beállítása
+                            numberOfPeopleLayoutParams.setMargins(40, 0, 0, 0);
                             numberOfPeopleTextView.setLayoutParams(numberOfPeopleLayoutParams);
                             numberOfPeopleTextView.setTextSize(18);
 
-                            // Órák TextView
                             TextView numberOfHoursTextView = new TextView(reservationsLayout.getContext());
                             String numberOfHoursText = String.valueOf(numberOfHours);
                             numberOfHoursTextView.setText(numberOfHoursText);

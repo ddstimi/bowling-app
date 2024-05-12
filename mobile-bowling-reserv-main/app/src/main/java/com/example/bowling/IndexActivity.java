@@ -53,10 +53,8 @@ public class IndexActivity extends AppCompatActivity {
         CardView open = findViewById(R.id.open_card);
         CardView help=findViewById(R.id.help_card);
 
-        // Animáció betöltése
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_page);
 
-        // Animáció hozzáadása a TextView elemekhez
         logo.startAnimation(fadeInAnimation);
         bowling.startAnimation(fadeInAnimation);
         menu.startAnimation(fadeInAnimation);
