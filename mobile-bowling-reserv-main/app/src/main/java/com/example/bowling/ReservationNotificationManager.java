@@ -37,15 +37,12 @@ public class ReservationNotificationManager {
 
     public void send(String message) {
         if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // Hiányzó jogosultságok kezelése
-            // Például kérj engedélyt vagy adj visszajelzést a felhasználónak
             return;
         }
 
-        // A jogosultság rendelkezésre áll, így folytathatod az értesítés küldését
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setSmallIcon(android.R.drawable.ic_dialog_alert) // helyettesítő ikon
-                .setContentTitle("Foglalás emlékeztető")
+                .setSmallIcon(android.R.drawable.ic_dialog_alert)
+                .setContentTitle("Foglalás Visszajelzés")
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 

@@ -1,14 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient2"
-    tools:context=".ProfileActivity">
+    tools:context=".DataUpdateActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/userDataLayout">
 
         <ImageView
             android:id="@+id/logo_image"
@@ -131,48 +133,67 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:id="@+id/name_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Név:"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:layout_marginTop="50dp"
-            app:layout_constraintTop_toBottomOf="@+id/profilepage_textview" />
+            <TextView
+                android:id="@+id/name_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Név:"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:padding="16dp"
+                android:layout_marginTop="50dp"
+                app:layout_constraintTop_toBottomOf="@+id/profilepage_textview" />
+            <EditText
+                android:id="@+id/editTextName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginEnd="32dp"
+                android:background="#DDD"
+                android:hint="Név"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#CCCCCC"
+                android:padding="12dp"
+                android:inputType="textPersonName"
+                android:backgroundTint="#AA000000"
+                android:radius="15dp"/>
 
-        <TextView
-            android:id="@+id/email_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="E-mail cím:"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:layout_marginTop="120dp"
-            app:layout_constraintTop_toBottomOf="@id/name_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            <TextView
+                android:id="@+id/email_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="E-mail cím:"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:padding="16dp"
+                android:layout_marginTop="150dp"
+                app:layout_constraintTop_toBottomOf="@id/name_textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="200dp"
+                android:layout_marginEnd="32dp"
+                android:background="#DDD"
+                android:hint="Név"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#CCCCCC"
+                android:padding="12dp"
+                android:inputType="textEmailAddress"
+                android:backgroundTint="#AA000000"
+                android:radius="15dp"/>
 
-        <TextView
-            android:id="@+id/phone_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Telefonszám:"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:layout_marginTop="190dp"
-            app:layout_constraintTop_toBottomOf="@id/email_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+
             <Button
-                android:id="@+id/dataUpdate_button"
+                android:id="@+id/update_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="70dp"
-                android:layout_marginTop="220dp"
+                android:layout_marginTop="260dp"
                 android:layout_marginEnd="70dp"
                 android:backgroundTint="#6c0606"
                 android:text="Adatok módosítása"
@@ -182,87 +203,15 @@
                 android:layout_gravity="center_horizontal"
                 android:textSize="18sp"
                 android:layout_marginBottom="32dp"
-                android:onClick="dataUpdate"
+                android:onClick="update"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_textview" />
 
-        <TextView
-            android:id="@+id/reservations_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Aktuális foglalásaim:"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:padding="16dp"
-            android:layout_marginTop="300dp"
-            app:layout_constraintTop_toBottomOf="@id/phone_textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_marginTop="320dp"
-                android:layout_marginRight="60dp">
-
-                <TextView
-                    android:id="@+id/tvReservationTime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Időpont"
-                    android:textStyle="bold"
-                    android:gravity="center_horizontal"
-                    android:textSize="20sp"
-                    android:textColor="#FFF"/>
-
-                <TextView
-                    android:id="@+id/tvNumberOfPeople"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Fő"
-                    android:textStyle="bold"
-                    android:gravity="left"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="20sp"
-                    android:textColor="#FFF"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/reservationsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="25dp"
-                android:layout_marginTop="350dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp">
-
-            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
-        <Button
-            android:id="@+id/profileDelete_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="210dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginEnd="210dp"
-            android:backgroundTint="#6c0606"
-            android:text="Fiók törlése"
-            android:textColor="#FFFFFF"
-            android:textAllCaps="false"
-            android:padding="16dp"
-            android:gravity="center"
-            android:textSize="18sp"
-            android:layout_marginBottom="32dp"
-            android:onClick="deleteProfile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/profile_card" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

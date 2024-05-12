@@ -12,12 +12,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -101,11 +98,9 @@ public class RegisterActivity extends AppCompatActivity {
             return;
         }
 
-        // Firebase Authentication felhasználó létrehozása
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, task -> {
             if (task.isSuccessful()) {
                 Log.d(LOG_TAG, "User created");
-                // Felhasználó sikeresen létrehozva, mentjük az adatait Firestore-ba
                 saveUserData(fullname, username, phone, birthdate);
                 Toast.makeText(this, "Sikeres regisztráció!", Toast.LENGTH_SHORT).show();
                 start();
@@ -116,16 +111,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void saveUserData(String fullName, String username, String phone, String birthdate) {
-        // FirebaseUser objektum lekérése a bejelentkezett felhasználóról
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            // Felhasználó egyedi azonosítójának lekérése
             String uid = user.getUid();
 
-            // Firestore adatbázis hivatkozásának létrehozása
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-            // Felhasználó adatainak tárolása a "users" kollekcióban
             Map<String, Object> userData = new HashMap<>();
             userData.put("email", user.getEmail());
             userData.put("phoneNumber", phone);
@@ -133,7 +124,6 @@ public class RegisterActivity extends AppCompatActivity {
             userData.put("username", username);
             userData.put("birthdate", birthdate);
 
-            // "users" kollekcióhoz tartozó dokumentum létrehozása az egyedi azonosítóval (UID)
             db.collection("users").document(uid)
                     .set(userData)
                     .addOnSuccessListener(aVoid -> Log.d(LOG_TAG, "Felhasználó adatai sikeresen mentve a Firestore adatbázisba"))

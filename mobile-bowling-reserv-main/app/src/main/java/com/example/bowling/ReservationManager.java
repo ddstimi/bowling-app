@@ -1,24 +1,17 @@
 package com.example.bowling;
 
-import android.icu.util.TimeZone;
 import android.util.Log;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -53,15 +46,12 @@ public class ReservationManager {
 
 
     public void queryReservationsForUser(String userId, LinearLayout reservationsLayout) {
-        // Az aktuális dátum lekérése
         String currentTime = getCurrentFormattedTime();
 
-        // Lekérjük a foglalásokat az adott felhasználóhoz tartozóan, amelyeknek az időpontja nagyobb az aktuális időpontnál
         Query query = reservationsCollection
                 .whereEqualTo("userId", userId)
                 .whereGreaterThan("reservationTime", currentTime)
-                .orderBy("reservationTime", Query.Direction.ASCENDING); // Rendezés a dátum alapján növekvő sorrendben
-        // Rendezés a dátum alapján növekvő sorrendben
+                .orderBy("reservationTime", Query.Direction.ASCENDING);
 
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -81,7 +71,6 @@ public class ReservationManager {
                             rowLayout.setLayoutParams(params);
                             rowLayout.setOrientation(LinearLayout.HORIZONTAL);
 
-                            // Időpont TextView
                             TextView timeTextView = new TextView(reservationsLayout.getContext());
                             timeTextView.setText(reservationTime);
                             timeTextView.setLayoutParams(new LinearLayout.LayoutParams(
@@ -93,7 +82,7 @@ public class ReservationManager {
 
                             // Fő TextView
                             TextView numberOfPeopleTextView = new TextView(reservationsLayout.getContext());
-                            String numberOfPeopleText = String.valueOf(numberOfPeople); // Főszám szövege
+                            String numberOfPeopleText = String.valueOf(numberOfPeople);
                             numberOfPeopleTextView.setText(numberOfPeopleText);
                             LinearLayout.LayoutParams numberOfPeopleLayoutParams = new LinearLayout.LayoutParams(
                                     0,
@@ -106,23 +95,21 @@ public class ReservationManager {
 
                             // Órák TextView
                             TextView numberOfHoursTextView = new TextView(reservationsLayout.getContext());
-                            String numberOfHoursText = String.valueOf(numberOfHours); // Órák száma szövege
+                            String numberOfHoursText = String.valueOf(numberOfHours);
                             numberOfHoursTextView.setText(numberOfHoursText);
                             LinearLayout.LayoutParams numberOfHoursLayoutParams = new LinearLayout.LayoutParams(
                                     0,
                                     LinearLayout.LayoutParams.WRAP_CONTENT,
                                     1
                             );
-                            numberOfHoursLayoutParams.setMargins(40, 0, 0, 0); // Bal margó beállítása
+                            numberOfHoursLayoutParams.setMargins(40, 0, 0, 0);
                             numberOfHoursTextView.setLayoutParams(numberOfHoursLayoutParams);
                             numberOfHoursTextView.setTextSize(18);
 
-                            // Hozzáadjuk a TextView-kat a sorhoz
                             rowLayout.addView(timeTextView);
                             rowLayout.addView(numberOfPeopleTextView);
                             rowLayout.addView(numberOfHoursTextView);
 
-                            // Hozzáadjuk a sort a LinearLayout-hoz
                             reservationsLayout.addView(rowLayout);
                                 } else {
                                     Log.e("ProfileActivity", "Nem megfelelő adatok a dokumentumban");
@@ -133,14 +120,12 @@ public class ReservationManager {
                             Log.d("ProfileActivity", "Nincsenek foglalások a felhasználóhoz");
                         }
                     } else {
-                        // Hiba történt a lekérdezés során
                         Log.w("ProfileActivity", "Hiba a foglalások lekérdezése során.", task.getException());
                     }
         });
     }
 
 
-    // Az aktuális időpont lekérdezése
     private String getCurrentFormattedTime() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         return dateFormat.format(new Date());

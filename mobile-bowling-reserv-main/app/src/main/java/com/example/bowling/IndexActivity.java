@@ -22,16 +22,12 @@ import androidx.core.app.ActivityCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
 
 public class IndexActivity extends AppCompatActivity {
 
     private static final String LOG_TAG=RegisterActivity.class.getName();
     private static final int PERMISSION_REQUEST_CALL = 1;
 
-    private ReservationNotificationManager mNotificationHandler;
     ReservationManager reservationManager;
 
     private FirebaseUser user;
@@ -68,20 +64,11 @@ public class IndexActivity extends AppCompatActivity {
         open.startAnimation(fadeInAnimation);
         help.startAnimation(fadeInAnimation);
 
-        checkReservationWithin30Minutes();
 
-        mNotificationHandler = new ReservationNotificationManager(this);
-        mNotificationHandler.send("Halo");
-    }
-
-    private void checkReservationWithin30Minutes() {
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 30); // Hozzáadunk 30 percet az aktuális időhöz
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-        String futureTime = dateFormat.format(calendar.getTime());
 
     }
+
+
     public void reservPage(View view) {
         Intent intent = new Intent(this, ReservActivity.class);
         intent.putExtra("SECRET_KEY",99);
@@ -106,32 +93,26 @@ public class IndexActivity extends AppCompatActivity {
     public void contactSupport(View view) {
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in);
         view.startAnimation(fadeInAnimation);
-        // Ellenőrizd, hogy van-e engedély a hívás indításához
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            // Ha nincs engedély, kérj engedélyt
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CALL_PHONE}, PERMISSION_REQUEST_CALL);
         } else {
-            // Ha van engedély, indítsd el a hívást
             startCall();
         }
     }
 
     private void startCall() {
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:+0")); // Ide írd be az ügyfélszolgálat telefonszámát
+        callIntent.setData(Uri.parse("tel:+0"));
         startActivity(callIntent);
     }
 
-    // Engedélykérés eredményének kezelése
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSION_REQUEST_CALL) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Ha a felhasználó engedélyezte a hívást, indítsd el a hívást
                 startCall();
             } else {
-                // Ha a felhasználó elutasította az engedélyt, adj neki visszajelzést
                 Toast.makeText(this, "A híváshoz való hozzáférés megtagadva", Toast.LENGTH_SHORT).show();
             }
         }
@@ -140,9 +121,8 @@ public class IndexActivity extends AppCompatActivity {
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
 
-        // Visszairányítjuk a felhasználót a bejelentkezési oldalra
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Törli az összes előző Activity-t a visszairányítás előtt
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }

@@ -1,7 +1,6 @@
 package com.example.bowling;
 
 import android.content.Intent;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -28,7 +27,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -39,6 +37,7 @@ public class ReservActivity extends AppCompatActivity {
 
     private static final String LOG_TAG=ReservActivity.class.getName();
     private ReservationManager reservationManager;
+    private ReservationNotificationManager mNotificationHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +64,9 @@ public class ReservActivity extends AppCompatActivity {
         TextView bowling = findViewById(R.id.bowling_text);
         LinearLayout menu = findViewById(R.id.menu_bar);
         CardView reserv = findViewById(R.id.reservation_card);
-        // Animáció betöltése
+
         Animation fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_page);
 
-        // Animáció hozzáadása a TextView elemekhez
         logo.startAnimation(fadeInAnimation);
         bowling.startAnimation(fadeInAnimation);
         menu.startAnimation(fadeInAnimation);
@@ -153,10 +151,8 @@ public class ReservActivity extends AppCompatActivity {
     }
     public void logout(View view) {
         FirebaseAuth.getInstance().signOut();
-
-        // Visszairányítjuk a felhasználót a bejelentkezési oldalra
         Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Törli az összes előző Activity-t a visszairányítás előtt
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
     }
@@ -171,102 +167,66 @@ public class ReservActivity extends AppCompatActivity {
 
         if (user != null) {
             userId = user.getUid();
-            // Most már rendelkezünk a bejelentkezett felhasználó egyedi azonosítójával (UID)
-            // Most ezt az azonosítót használhatjuk a mentéshez vagy más műveletekhez
         }
-        // EditText-ek és Spinner lekérése a foglalás részleteihez
+
         EditText peopleEditText = findViewById(R.id.people_edittext);
         Spinner dateSpinner = findViewById(R.id.date_spinner);
-        EditText hourEditText=findViewById(R.id.hour_edittext);
+        EditText hourEditText = findViewById(R.id.hour_edittext);
 
-        // Foglalás részleteinek lekérése a felhasználó által megadott értékekből
         String people = peopleEditText.getText().toString();
         String reservationTime = dateSpinner.getSelectedItem().toString();
         String reservationHour = hourEditText.getText().toString();
 
-        // Ellenőrizd, hogy az EditText nem üres
-        if (people.isEmpty()||reservationHour.isEmpty()) {
-
+        if (people.isEmpty() || reservationHour.isEmpty()) {
             Log.e(LOG_TAG, "Mindent kötelező kitölteni!");
             Toast.makeText(this, "Minden mezőt ki kell tölteni!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Fők számának konvertálása egész számmá
         int numberOfPeople = Integer.parseInt(people);
-        int numberOfHours=Integer.parseInt(reservationHour);
+        int numberOfHours = Integer.parseInt(reservationHour);
 
 
-        String requestedReservationTime = reservationTime; // A kért foglalás időpontja
-        int requestedNumberOfHours = numberOfHours; // A kért foglalás időtartama órában
-        int requestedNumberOfPeople = numberOfPeople; // A kért foglalás létszáma
-
-// Számoljuk ki a foglalás végének időpontját
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date requestedEndTime = null;
-        try {
-            Date startTime = dateFormat.parse(requestedReservationTime);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(startTime);
-            calendar.add(Calendar.HOUR, requestedNumberOfHours);
-            requestedEndTime = calendar.getTime();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-// Firestore lekérdezés összeállítása
         CollectionReference reservationsRef = FirebaseFirestore.getInstance().collection("reservations");
 
-
         Query query = reservationsRef
-                .whereGreaterThanOrEqualTo("reservationTime", requestedReservationTime) // A foglalás kezdő időpontja a kért időponttól később legyen
-                .whereLessThanOrEqualTo("reservationTime", dateFormat.format(requestedEndTime)) // A foglalás befejező időpontja a kért időpont és időtartam alapján
-                .orderBy("reservationTime");
-        final String userIdFinal = userId;
+                .whereGreaterThanOrEqualTo("reservationTime", reservationTime)
+                .orderBy("reservationTime")
+                .limit(1);
+
+        final String finalId=userId;
+
         query.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 QuerySnapshot querySnapshot = task.getResult();
                 if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                    // Van már foglalás az adott időpontban és időtartamban
-                    int totalReservedPlaces = 0;
-                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
-                        // Számoljuk össze az összes foglalt helyet az adott időpontban és időtartamban
-                        int numberPeople = document.getLong("numberOfPeople").intValue();
-                        totalReservedPlaces += numberPeople;
-                    }
-                    // Ellenőrizzük, hogy van-e még elérhető hely az adott időpontban és időtartamban
-                    if ((totalReservedPlaces + requestedNumberOfPeople)>20||totalReservedPlaces>=20||requestedNumberOfPeople>20) {
+                    DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                    int totalReservedPlaces = document.getLong("numberOfPeople").intValue();
+
+                    if ((totalReservedPlaces + numberOfPeople) > 20 || totalReservedPlaces >= 20 || numberOfPeople > 20) {
                         Toast.makeText(this, "Sajnos nincs elég szabad hely a kiválasztott időpontban! Válasszon későbbi időpontot!", Toast.LENGTH_SHORT).show();
                         Log.d("ReservationCheck", "Nincs elég szabad hely a foglaláshoz az adott időpontban és időtartamban.");
                     } else {
-                        // Van elérhető hely a foglaláshoz
-                        Log.d("ReservationCheck", "Van elérhető hely a foglaláshoz az adott időpontban és időtartamban.");
-                        reservationManager.saveReservation(userIdFinal, reservationTime, numberOfPeople,numberOfHours);
 
-                        Toast.makeText(this, "Sikeres foglalás!", Toast.LENGTH_SHORT).show();
-                        // Foglalás sikeresen mentve
+                        reservationManager.saveReservation(finalId, reservationTime, numberOfPeople, numberOfHours);
+                        mNotificationHandler = new ReservationNotificationManager(this);
+                        mNotificationHandler.send("Sikeres foglalás! Ne felejtsen el a kiválasztott időpont előtt 30 perccel megjelenni!\n Köszönjük, hogy minket választott");
                         Log.i(LOG_TAG, "Foglalás sikeresen mentve!");
                         peopleEditText.setText("");
                         hourEditText.setText("");
                     }
                 } else {
-                    // Nincs még foglalás az adott időpontban és időtartamban, tehát van elérhető hely
-                    Log.d("ReservationCheck", "Nincs még foglalás az adott időpontban és időtartamban, tehát van elérhető hely.");
-                    reservationManager.saveReservation(userIdFinal, reservationTime, numberOfPeople,numberOfHours);
-
-                    Toast.makeText(this, "Sikeres foglalás!", Toast.LENGTH_SHORT).show();
-                    // Foglalás sikeresen mentve
+                    reservationManager.saveReservation(finalId, reservationTime, numberOfPeople, numberOfHours);
+                    mNotificationHandler = new ReservationNotificationManager(this);
+                    mNotificationHandler.send("Sikeres foglalás! Ne felejtsen el a kiválasztott időpont előtt 30 perccel megjelenni!\n Köszönjük, hogy minket választott");
                     Log.i(LOG_TAG, "Foglalás sikeresen mentve!");
                     peopleEditText.setText("");
                     hourEditText.setText("");
                 }
             } else {
-                // Hiba történt a lekérdezés során
                 Log.e("ReservationCheck", "Hiba történt a lekérdezés során.", task.getException());
             }
         });
-   //TODO open hours  and not 0
-
     }
 
 
